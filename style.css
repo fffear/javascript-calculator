@@ -1,0 +1,20 @@
+#calculator {
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: grey;
+    border-radius: 5px;
+    width: 50%;
+    margin: 0 auto;
+    
+}
+
+#calculator-content {
+    margin: 0 auto;
+    text-align: center;
+    width: 300px;
+}
+
+button {
+    width: 45px;
+    margin: 2px 1px;
+}
