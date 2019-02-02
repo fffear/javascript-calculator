@@ -1,20 +1,45 @@
 #calculator {
-    border: 1px solid #000;
-    padding: 10px;
-    background-color: grey;
-    border-radius: 5px;
-    width: 50%;
+    background-color: blue;
+    padding: 5px;
+    width: 250px;
     margin: 0 auto;
-    
 }
 
-#calculator-content {
-    margin: 0 auto;
-    text-align: center;
-    width: 300px;
+#calculatorGridContainer {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    grid-template-rows: repeat(6, 50px);
+    grid-column-gap: 0;
+    margin: 0;
+
+    grid-template-areas: 
+      "display display display display display"
+      "topRow topRow topRow topRow topRow";
+    background-color: grey;
+    width: 100%;
+   
+
+}
+
+#calculatorDisplay {
+    background-color: springgreen;
+    grid-area: display;
 }
 
 button {
-    width: 45px;
-    margin: 2px 1px;
+    text-align: center;
+    padding: 0;
+    border: none;
+    
+}
+
+.topRow {
+    grid-area: topRow;
+    padding: 0;
+    margin: 0;
+    font-size: 0;
+}
+
+.topRow button {
+    width: 50px;
 }
