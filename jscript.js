@@ -5,7 +5,7 @@ const operators = {
     associativity: "left",
     operation: function (a, b) {return a + b;},
   },
-  "-": {    
+  "-": {
   name: "subtract",
   precedence: 1,
   associativity: "left",
@@ -49,7 +49,7 @@ function operate() {
   tokens.splice(tokens.length - 1, 1);
   console.log(tokens);
  
-  for ( i = 0; i < tokens.length; i++ ) {
+  for (i = 0; i < tokens.length; i++ ) {
     let token = tokens[i];
     let o1 = inputs[inputs.length -1];
 
@@ -67,19 +67,25 @@ function operate() {
       inputs.push(token);
     } else if (token === "(") {
       inputs.push(token);
-    } else if (token === ")") {
-      while (inputs[inputs.length - 1] != "(") {
+    } else if (token === ")") { 
+      while (inputs.length > 0) {
+        if (inputs[inputs.length - 1] != "(") {
         outputQueue.push(inputs.pop());
-      } 
-      inputs.pop();
+        } else if (inputs[inputs.length - 1] == "(") { 
+          inputs.pop();
+          break;
+
+        } 
+      }
     } else if (tokens[i] === "=") {
       while (inputs.length > 0) {
         outputQueue.push(inputs.pop());
       }
       let resultStack = [];
-      for (i = 0; i < outputQueue.length; i++) {
+      for (let i = 0; i < outputQueue.length; i++) {
         if (isNumeric(outputQueue[i])) {
           resultStack.push(outputQueue[i]);
+          console.log(resultStack);
         }
         if (!isNumeric(outputQueue[i])) {
           let b = resultStack.pop();
@@ -88,7 +94,7 @@ function operate() {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
             console.log(resultStack);
           }
-          if (/\-/.test(outputQueue[i])) {
+          if (outputQueue[i].search(/\-$/) == 0) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
             console.log(resultStack);
           }
@@ -109,10 +115,10 @@ function operate() {
             console.log(resultStack);
           }
         }
-      }
+      } 
     displayValue = Number(Math.round(resultStack[0] + "e2") + "e-2");
-    updateDisplay();
-    }
+    updateDisplay(); 
+    } 
   }
   console.log(inputs);
   console.log(outputQueue);
@@ -152,10 +158,12 @@ function inputOperator(operator) {
 }
 
 function inputBrackets(brackets) {
-  if (displayValue == 0 || /[\%\^\+\*\/\-]\s$/.test(displayValue)) {
-    displayValue += brackets + " ";
+  if (displayValue == 0) {
+    displayValue = brackets + " ";
   } else if (/\d$|\.$/.test(displayValue)) {
     displayValue += " " + brackets + " ";
+  } else if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
+    displayValue += brackets + " ";
   }
 }
 
@@ -239,4 +247,3 @@ calculatorGridContainer.addEventListener("click", function(e) {
     updateDisplay();
   }
 });
-
