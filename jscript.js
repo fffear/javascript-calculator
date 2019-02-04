@@ -85,7 +85,6 @@ function operate() {
       for (let i = 0; i < outputQueue.length; i++) {
         if (isNumeric(outputQueue[i])) {
           resultStack.push(outputQueue[i]);
-          console.log(resultStack);
         }
         if (!isNumeric(outputQueue[i])) {
           let b = resultStack.pop();
@@ -120,11 +119,10 @@ function operate() {
     updateDisplay(); 
     } 
   }
-  console.log(inputs);
-  console.log(outputQueue);
 }
 
 const display = document.getElementById("calculatorDisplay");
+const display2 = document.getElementById("equationDisplay");
 let displayValue = "0";
 updateDisplay();
 
@@ -132,6 +130,11 @@ const calculatorButtons = document.querySelector("calculatorGridContainer");
 
 function updateDisplay() {
   display.textContent = displayValue;
+  return;
+}
+
+function updateDisplay2() {
+  display2.textContent = displayValue;
   return;
 }
 
@@ -162,7 +165,7 @@ function inputBrackets(brackets) {
     displayValue = brackets + " ";
   } else if (/\d$|\.$/.test(displayValue)) {
     displayValue += " " + brackets + " ";
-  } else if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
+  } else if (/[\(\)\%\^\+\*\/\-]\s$/.test(displayValue)) {
     displayValue += brackets + " ";
   }
 }
@@ -207,43 +210,51 @@ calculatorGridContainer.addEventListener("click", function(e) {
   if (e.target.classList.contains("number")) {
     inputDigit(e.target.value);
     updateDisplay();
+    updateDisplay2();
   }
 
   if (e.target.classList.contains("decimal")) {
     inputDecimal(e.target.innerText);
     updateDisplay();
+    updateDisplay2();
   }
  
   if (e.target.classList.contains("operator")) {
     inputOperator(e.target.innerText);
     updateDisplay();
+    updateDisplay2();
     operate();
   }
   
   if (e.target.classList.contains("brackets")) {
     inputBrackets(e.target.innerText);
     updateDisplay();
+    updateDisplay2();
     operate();
   }
 
   if (e.target.classList.contains("modulus")) {
     inputMod(e.target.innerText);
     updateDisplay();
+    updateDisplay2();
     operate();
   }
 
   if (e.target.classList.contains("clear")) {
     clearDisplay();
+    updateDisplay2();
     updateDisplay();
   }
 
   if (e.target.classList.contains("delete")) {
     deleteDisplay();
     updateDisplay();
+    updateDisplay2();
   }
 
   if (e.target.classList.contains("negation")) {
     negateNumber();
     updateDisplay();
+    updateDisplay2();
   }
 });
