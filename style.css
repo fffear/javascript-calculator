@@ -8,22 +8,32 @@
 #calculatorGridContainer {
     display: grid;
     grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(6, 50px);
+    grid-template-rows: repeat(2, 25px) repeat(5, 50px);
     grid-column-gap: 0;
     margin: 0;
-
     grid-template-areas: 
-      "display display display display display"
-      "topRow topRow topRow topRow topRow";
+      "eDisplay eDisplay eDisplay eDisplay eDisplay"
+      "display display display display display";
     background-color: grey;
-    width: 100%;
-   
+    width: 100%; 
+    align-items: stretch;
 
 }
 
 #calculatorDisplay {
     background-color: springgreen;
     grid-area: display;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 25px;
+}
+
+#equationDisplay {
+    background-color: springgreen;
+    grid-area: eDisplay;
+    text-align: right;
+    padding-right: 10px;
+    line-height: 25px;
 }
 
 button {
@@ -43,3 +53,11 @@ button {
 .topRow button {
     width: 50px;
 }
+
+.equals {
+    grid-column-start:4;
+    grid-column-end: 6;
+    grid-row-start: 7;
+    grid-row-end: 8;
+}
+
