@@ -92,5 +92,18 @@ button {
     grid-row-end: 8;
 }
 
-.removable {
+.selected {
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 1px solid black;
+    transition: all 0.1s;
+}
+
+div[data-key] {
+    text-align: center;
+    line-height: 50px;
+}
+
+div[data-key-2] {
+    text-align: center;
+    line-height: 50px;
 }

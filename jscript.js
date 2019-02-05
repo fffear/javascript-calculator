@@ -177,13 +177,13 @@ function inputBrackets(brackets) {
   }
 }
 
-function inputMod(mod) {
+/*function inputMod(mod) {
   if (displayValue == 0) {
     return;
   } else {
     displayValue += " " + mod + " ";
   }
-}
+} */
 
 function negateNumber() {
   let tokenArray = displayValue.split(" ");
@@ -219,7 +219,7 @@ removableBtns.forEach((removableBtn) => {
   removableBtn.setAttribute("style", "display: block")
 });
 
-function removeButons() {
+function removeButtons() {
   removableBtns.forEach((removableBtn) => {
     if (removableBtn.style.display == "block") {
       removableBtn.setAttribute("style", "display: none");
@@ -227,10 +227,6 @@ function removeButons() {
       removableBtn.setAttribute("style", "display: block");
     }
   });
-}
-
-function addButtons() {
-  ffffff
 }
 
 function displayHelp() {
@@ -244,16 +240,31 @@ function displayHelp() {
 }
 
 calculatorContainer.addEventListener("click", function(e) {
+  let btns = document.querySelectorAll("div[data-key]");
+  let btns2 = document.querySelectorAll("div[data-key-2]");
+
+
+
+  function removeTransition(e) {
+    if (e.propertyName)
+    this.classList.remove("selected");
+  }
+  
+  btns.forEach(button => button.addEventListener("transitionend", removeTransition));
+  btns2.forEach(button => button.addEventListener("transitionend", removeTransition));
+
   if (e.target.classList.contains("number")) {
     inputDigit(e.target.innerText);
     updateDisplay();
     updateDisplay2();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("decimal")) {
     inputDecimal(e.target.innerText);
     updateDisplay();
     updateDisplay2();
+    e.target.classList.add("selected");
   }
  
   if (e.target.classList.contains("operator")) {
@@ -261,6 +272,7 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.add("selected");
   }
   
   if (e.target.classList.contains("brackets")) {
@@ -268,6 +280,7 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("modulus")) {
@@ -275,29 +288,34 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("clear")) {
     clearDisplay();
     updateDisplay2();
     updateDisplay();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("delete")) {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("negation")) {
     negateNumber();
     updateDisplay();
     updateDisplay2();
+    e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("help")) {
-    removeButons();    
+    removeButtons();    
     displayHelp();
+    e.target.classList.add("selected");
   }
 });
 
@@ -305,21 +323,36 @@ window.addEventListener("keydown", function(e) {
   let btn = document.querySelector(`div[data-key="${e.keyCode}"]`);
   let btn2 = document.querySelector(`div[data-key-2="${e.keyCode}"]`);
 
-console.log(e.key);
+  console.log(e.keyCode);
+
+  function removeTransition(e) {
+    if (e.propertyName)
+    this.classList.remove("selected");
+  }
+  
+  let btns = document.querySelectorAll(`div[data-key="${e.keyCode}"]`);
+  let btns2 = document.querySelectorAll(`div[data-key-2="${e.keyCode}"]`);
+
+
+btns.forEach(button => button.addEventListener("transitionend", removeTransition));
+btns2.forEach(button => button.addEventListener("transitionend", removeTransition));
+
 
   if (!btn && !btn2) return;
 
   if (e.keyCode == 8) { //clear
     clearDisplay();
     updateDisplay();
+    btn.classList.add("selected");
     return;
   }
 
   if (e.keyCode == 53 && e.shiftKey == true) { //modulus
-    inputMod("%");
+    inputOperator("%");
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.add("selected");
     return;
   }
 
@@ -328,6 +361,8 @@ console.log(e.key);
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.add("selected");
+
     return;
   }
 
@@ -336,13 +371,15 @@ console.log(e.key);
     operate();
     updateDisplay();
     updateDisplay2();
+    btn.classList.add("selected");
     return;
   }
 
   if (e.keyCode == 46) { //delete
     deleteDisplay();
     updateDisplay();
-    updateDisplay2();    
+    updateDisplay2();  
+    btn.classList.add("selected");  
     return;
   }
 
@@ -351,12 +388,14 @@ console.log(e.key);
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.add("selected");
     return;
   }
 
   if (e.keyCode == 72) { //help
-    removeButons();
+    removeButtons();
     displayHelp();
+    btn.classList.add("selected");
     return;
   }
 
@@ -364,54 +403,100 @@ console.log(e.key);
     negateNumber();
     updateDisplay();
     updateDisplay2();
+    btn.classList.add("selected");
     return;
   }
 
-  if (e.keyCode == 190 || e.keyCode == 110) { //decimal
+  if (e.keyCode == 190) { //decimal
     inputDecimal(".");
     updateDisplay();
     updateDisplay2();
+    btn2.classList.add("selected");
+    return;
+  } else if (e.keyCode == 110) {
+    inputDecimal(".");
+    updateDisplay();
+    updateDisplay2();
+    btn.classList.add("selected");
     return;
   }
 
-  if (e.keyCode == 107 || e.keyCode == 61) { //addition
+  if (e.keyCode == 107) { //addition
     inputOperator("+");
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.add("selected");
+    return;
+  } else if (e.keyCode == 61) { 
+    inputOperator("+");
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    btn2.classList.add("selected");
     return;
   }
 
-  if (e.keyCode == 173 || e.keyCode == 109) { //subtraction
+  if (e.keyCode == 173) { //subtraction
     inputOperator(e.key);
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.add("selected");
     return;
-  }
-
-  if (e.keyCode == 106 || e.keyCode == 56 && e.shiftKey == true) { //multiplication
+  } else if (e.keyCode == 109) {
     inputOperator(e.key);
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.add("selected");
     return;
   }
 
-  if (e.keyCode == 191 || e.keyCode == 111) { //division
+  if (e.keyCode == 56 && e.shiftKey == true) { //multiplication
     inputOperator(e.key);
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.add("selected");
+    return;
+  } else if (e.keyCode == 106) {
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    btn.classList.add("selected");
     return;
   }
 
-  if (e.key <= 9 && e.key >=0) {
+  if (e.keyCode == 191) { //division
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    btn2.classList.add("selected");
+    return;
+  } else if (e.keyCode == 111) {
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    btn.classList.add("selected");
+    return;
+  }
+
+  if (e.keyCode >= 48 && e.keyCode <=57) {
     inputDigit(e.key);
     updateDisplay();
     updateDisplay2();
+    btn.classList.add("selected");
+    return;
+  } else if (e.keyCode >= 96 && e.keyCode <=105) {
+    inputDigit(e.key);
+    updateDisplay();
+    updateDisplay2();
+    btn2.classList.add("selected");
     return;
   }
   
-
 });
