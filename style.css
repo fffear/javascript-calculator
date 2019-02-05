@@ -5,6 +5,8 @@
     margin: 0 auto;
 }
 
+/* row 4- 8 col 1-6  */
+
 #calculatorGridContainer {
     display: grid;
     grid-template-columns: repeat(5, 50px);
@@ -54,10 +56,41 @@ button {
     width: 50px;
 }
 
+.operator {
+    background-color: orange;
+}
+
+.brackets {
+    background-color: orange;
+}
+
+.clear {
+    background-color: red;
+}
+
+.delete {
+    background-color: red;
+}
+
+.help {
+    background-color: pink;
+}
+
 .equals {
     grid-column-start:4;
     grid-column-end: 6;
     grid-row-start: 7;
     grid-row-end: 8;
+    background-color: blue;
 }
 
+.help-info {
+    display: none;
+    grid-column-start: 1;
+    grid-column-end: 6;
+    grid-row-start: 4;
+    grid-row-end: 8;
+}
+
+.removable {
+}

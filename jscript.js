@@ -116,9 +116,13 @@ function operate() {
         }
       } 
     displayValue = Number(Math.round(resultStack[0] + "e2") + "e-2");
+    if (resultStack[0] == Infinity || resultStack[0] == -Infinity) {
+      displayValue = "Infinity! Can't divide by 0!";
+    } 
     updateDisplay(); 
     } 
   }
+  console.log(inputs);
 }
 
 const display = document.getElementById("calculatorDisplay");
@@ -126,7 +130,7 @@ const display2 = document.getElementById("equationDisplay");
 let displayValue = "0";
 updateDisplay();
 
-const calculatorButtons = document.querySelector("calculatorGridContainer");
+const calculatorContainer = document.querySelector("#calculatorGridContainer");
 
 function updateDisplay() {
   display.textContent = displayValue;
@@ -141,15 +145,18 @@ function updateDisplay2() {
 function inputDigit(digit) {
   if (displayValue === "0") {
     displayValue = digit;
-  } else if (displayValue !== "0") {
+  } else {
     displayValue += digit;
   }
 }
 
 function inputDecimal(decimal) {
-  if (displayValue.search(/\./) == -1) {
+  if (/\.\d*$/.test(displayValue)) {
+    return;
+  } else if (displayValue === 0 || /\d*$/.test(displayValue)) {
     displayValue += decimal;
-  } else { return;}
+    return;
+  }
 }
 
 function inputOperator(operator) {
@@ -189,6 +196,7 @@ function negateNumber() {
 
 function clearDisplay() {
   displayValue = "0";
+  display2.textContent = null;
 }
 
 function deleteDisplay() {
@@ -206,9 +214,38 @@ function deleteDisplay() {
   }                                   
 }
 
-calculatorGridContainer.addEventListener("click", function(e) {
+let removableBtns = document.querySelectorAll("div.removable");
+removableBtns.forEach((removableBtn) => {
+  removableBtn.setAttribute("style", "display: block")
+});
+
+function removeButons() {
+  removableBtns.forEach((removableBtn) => {
+    if (removableBtn.style.display == "block") {
+      removableBtn.setAttribute("style", "display: none");
+    } else {
+      removableBtn.setAttribute("style", "display: block");
+    }
+  });
+}
+
+function addButtons() {
+  ffffff
+}
+
+function displayHelp() {
+  let helpBox = document.querySelector(".help-info");
+
+  if (helpBox.style.display == "block") {
+    helpBox.setAttribute("style", "display: none");
+  } else {
+    helpBox.setAttribute("style", "display: block");
+  }
+}
+
+calculatorContainer.addEventListener("click", function(e) {
   if (e.target.classList.contains("number")) {
-    inputDigit(e.target.value);
+    inputDigit(e.target.innerText);
     updateDisplay();
     updateDisplay2();
   }
@@ -257,4 +294,124 @@ calculatorGridContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
   }
+
+  if (e.target.classList.contains("help")) {
+    removeButons();    
+    displayHelp();
+  }
+});
+
+window.addEventListener("keydown", function(e) {
+  let btn = document.querySelector(`div[data-key="${e.keyCode}"]`);
+  let btn2 = document.querySelector(`div[data-key-2="${e.keyCode}"]`);
+
+console.log(e.key);
+
+  if (!btn && !btn2) return;
+
+  if (e.keyCode == 8) { //clear
+    clearDisplay();
+    updateDisplay();
+    return;
+  }
+
+  if (e.keyCode == 53 && e.shiftKey == true) { //modulus
+    inputMod("%");
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 57 && e.shiftKey == true || e.keyCode == 48 && e.shiftKey == true) { //brackets
+    inputBrackets(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 13) { //equals
+    inputOperator("=");
+    operate();
+    updateDisplay();
+    updateDisplay2();
+    return;
+  }
+
+  if (e.keyCode == 46) { //delete
+    deleteDisplay();
+    updateDisplay();
+    updateDisplay2();    
+    return;
+  }
+
+  if (e.keyCode == 54 && e.shiftKey == true) { //math power
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 72) { //help
+    removeButons();
+    displayHelp();
+    return;
+  }
+
+  if (e.keyCode == 78) { //negation
+    negateNumber();
+    updateDisplay();
+    updateDisplay2();
+    return;
+  }
+
+  if (e.keyCode == 190 || e.keyCode == 110) { //decimal
+    inputDecimal(".");
+    updateDisplay();
+    updateDisplay2();
+    return;
+  }
+
+  if (e.keyCode == 107 || e.keyCode == 61) { //addition
+    inputOperator("+");
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 173 || e.keyCode == 109) { //subtraction
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 106 || e.keyCode == 56 && e.shiftKey == true) { //multiplication
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.keyCode == 191 || e.keyCode == 111) { //division
+    inputOperator(e.key);
+    updateDisplay();
+    updateDisplay2();
+    operate();
+    return;
+  }
+
+  if (e.key <= 9 && e.key >=0) {
+    inputDigit(e.key);
+    updateDisplay();
+    updateDisplay2();
+    return;
+  }
+  
+
 });
