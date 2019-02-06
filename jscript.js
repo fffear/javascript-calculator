@@ -189,8 +189,8 @@ function deleteDisplay() {
   if (displayValue == "0" || /^\d$/.test(displayValue)) {
     displayValue = "0";
   } else if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
-  tempDisplayValue.splice(-3, 3);
-  displayValue = tempDisplayValue.join("");
+    tempDisplayValue.splice(-3, 3);
+    displayValue = tempDisplayValue.join("");
   } else {
     tempDisplayValue.splice(-1, 1);
     displayValue = tempDisplayValue.join("");
@@ -228,8 +228,8 @@ calculatorContainer.addEventListener("click", function(e) {
 
   function removeTransition(e) {
     if (e.propertyName) {
-    this.classList.remove("selected");
-    console.log(e);
+    e.target.classList.remove("selected");
+    e.target.classList.add("hover-over");
     }
   }
 
@@ -270,15 +270,6 @@ calculatorContainer.addEventListener("click", function(e) {
     e.target.classList.add("selected");
   }
 
-  if (e.target.classList.contains("modulus")) {
-    inputMod(e.target.innerText);
-    updateDisplay();
-    updateDisplay2();
-    operate();
-    e.target.classList.remove("hover-over");
-    e.target.classList.add("selected");
-  }
-
   if (e.target.classList.contains("clear")) {
     clearDisplay();
     updateDisplay();
@@ -287,7 +278,7 @@ calculatorContainer.addEventListener("click", function(e) {
   }
 
   if (e.target.classList.contains("delete")) {
-    if (displayValue >= 0 && displayValue <= 9) {
+    if (displayValue >= 0 && displayValue <= 9 || /^[\(\)]\s$/.test(displayValue) || /0\s[\/\*\+\-]\s$/.test(displayValue)) {
       clearDisplay();
       updateDisplay();
       e.target.classList.remove("hover-over");
