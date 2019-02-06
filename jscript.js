@@ -291,9 +291,9 @@ calculatorContainer.addEventListener("click", function(e) {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
+    }
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
-    }
   }
 
   if (e.target.classList.contains("negation")) {
@@ -382,9 +382,13 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
   }
 
   if (e.keyCode == 46) { //delete
+    if (/^\d$/.test(displayValue)) {
+      clearDisplay();
+    } else {
     deleteDisplay();
     updateDisplay();
-    updateDisplay2();  
+    updateDisplay2();
+    } 
     btn.classList.add("selected");  
     return;
   }
