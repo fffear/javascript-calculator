@@ -243,13 +243,11 @@ calculatorContainer.addEventListener("click", function(e) {
   let btns = document.querySelectorAll("div[data-key]");
   let btns2 = document.querySelectorAll("div[data-key-2]");
 
-
-
   function removeTransition(e) {
     if (e.propertyName)
     this.classList.remove("selected");
   }
-  
+
   btns.forEach(button => button.addEventListener("transitionend", removeTransition));
   btns2.forEach(button => button.addEventListener("transitionend", removeTransition));
 
@@ -257,6 +255,7 @@ calculatorContainer.addEventListener("click", function(e) {
     inputDigit(e.target.innerText);
     updateDisplay();
     updateDisplay2();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
@@ -264,6 +263,7 @@ calculatorContainer.addEventListener("click", function(e) {
     inputDecimal(e.target.innerText);
     updateDisplay();
     updateDisplay2();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
  
@@ -272,6 +272,7 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
   
@@ -280,6 +281,7 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
@@ -288,6 +290,7 @@ calculatorContainer.addEventListener("click", function(e) {
     updateDisplay();
     updateDisplay2();
     operate();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
@@ -295,6 +298,7 @@ calculatorContainer.addEventListener("click", function(e) {
     clearDisplay();
     updateDisplay2();
     updateDisplay();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
@@ -302,6 +306,7 @@ calculatorContainer.addEventListener("click", function(e) {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
@@ -309,26 +314,42 @@ calculatorContainer.addEventListener("click", function(e) {
     negateNumber();
     updateDisplay();
     updateDisplay2();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("help")) {
     removeButtons();    
     displayHelp();
+    e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 });
+
+function hoverColor(e) {
+  if (e.target.hasAttribute("data-key")) {
+    e.target.classList.add("hover-over");
+  } else if (e.target.hasAttribute("data-key-2")) {
+    e.target.classList.add("hover-over");
+  }
+}
+
+function removeHoverColor(e) {
+  if (e.target.hasAttribute("data-key")) {
+    e.target.classList.remove("hover-over");
+  } else if (e.target.hasAttribute("data-key-2")) {
+    e.target.classList.remove("hover-over");
+  }
+}
+
+calculatorContainer.addEventListener("mouseover", hoverColor);
+calculatorContainer.addEventListener("mouseout", removeHoverColor);
 
 window.addEventListener("keydown", function(e) {
   let btn = document.querySelector(`div[data-key="${e.keyCode}"]`);
   let btn2 = document.querySelector(`div[data-key-2="${e.keyCode}"]`);
 
-  console.log(e.keyCode);
-
-  function removeTransition(e) {
-    if (e.propertyName)
-    this.classList.remove("selected");
-  }
+  function removeTransition(e) { if (e.propertyName) this.classList.remove("selected"); }
   
   let btns = document.querySelectorAll(`div[data-key="${e.keyCode}"]`);
   let btns2 = document.querySelectorAll(`div[data-key-2="${e.keyCode}"]`);

@@ -1,25 +1,58 @@
-#calculator {
-    background-color: blue;
-    padding: 5px;
-    width: 250px;
-    margin: 0 auto;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: arial, helvetica, sans-serif;
 }
 
-/* row 4- 8 col 1-6  */
+#page-container {
+    min-height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: flex-start;
+   align-items: stretch;
+   background-color: #d6eaf8;
+}
+
+#main {
+    overflow: auto;
+    padding-bottom: 50.5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+
+#calculator {
+    margin-top: 50.5px;
+    background-color: rgb(38, 38, 38);
+    padding: 5px;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px 2px #000;
+}
 
 #calculatorGridContainer {
     display: grid;
-    grid-template-columns: repeat(5, 50px);
-    grid-template-rows: repeat(2, 25px) repeat(5, 50px);
-    grid-column-gap: 0;
-    margin: 0;
-    grid-template-areas: 
-      "eDisplay eDisplay eDisplay eDisplay eDisplay"
-      "display display display display display";
-    background-color: grey;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    margin: 0;  
+    height: 315px;
     width: 100%; 
     align-items: stretch;
+    box-sizing: border-box;
+}
 
+#calculatorGridContainer div {
+    box-sizing: border-box;
 }
 
 #calculatorDisplay {
@@ -27,7 +60,12 @@
     grid-area: display;
     text-align: right;
     padding-right: 10px;
-    line-height: 25px;
+    line-height: 35px;
+    height: 35px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 0 10px 1px springgreen;
 }
 
 #equationDisplay {
@@ -35,53 +73,36 @@
     grid-area: eDisplay;
     text-align: right;
     padding-right: 10px;
-    line-height: 25px;
+    line-height: 35px;
+    height: 35px;
+    font-size: 20px;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 0 10px 1px springgreen;
 }
 
-button {
-    text-align: center;
-    padding: 0;
-    border: none;
-    
+.operator, .brackets {
+    background-color: #555577;
+    color: rgb(255, 255, 255);
 }
 
-.topRow {
-    grid-area: topRow;
-    padding: 0;
-    margin: 0;
-    font-size: 0;
-}
-
-.topRow button {
-    width: 50px;
-}
-
-.operator {
-    background-color: orange;
-}
-
-.brackets {
-    background-color: orange;
-}
-
-.clear {
-    background-color: red;
-}
-
-.delete {
-    background-color: red;
+.clear, .delete {
+    background-color: rgb(226, 91, 49);
 }
 
 .help {
     background-color: pink;
 }
 
+.number, .decimal, .negation {
+    background-color: #c5c5f9;
+}
+
 .equals {
     grid-column-start:4;
     grid-column-end: 6;
-    grid-row-start: 7;
-    grid-row-end: 8;
-    background-color: blue;
+    grid-row-start: 5;
+    grid-row-end: 6;
+    background-color: royalblue;
 }
 
 .help-info {
@@ -90,20 +111,75 @@ button {
     grid-column-end: 6;
     grid-row-start: 4;
     grid-row-end: 8;
+    text-align: left;
+    margin-top: -120px;
+    padding: 0 10px;
+    color: #fff;
 }
 
 .selected {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgb(255, 255, 255);
     border: 1px solid black;
+    box-sizing: border-box;
+    transition: all 0.1s;
+}
+
+.hover-over {
+    background-color: rgb(128, 128, 128);
     transition: all 0.1s;
 }
 
 div[data-key] {
     text-align: center;
-    line-height: 50px;
+    line-height: 57px;
+    border-radius: 5px;
 }
 
 div[data-key-2] {
     text-align: center;
-    line-height: 50px;
+    line-height: 57px;
+    border-radius: 5px;
+}
+
+h1 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 10px;
+
+}
+
+h2 {
+    text-align: center;
+    margin: 0;
+    
+}
+
+div#header {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(25, 41, 56);
+    width: 100%;
+    color: rgb(192, 218, 241);
+}
+
+#footer {
+    background-color: rgb(25, 41, 56);
+    position: relative;
+    height: 50.5px;
+    margin-top: -50.5px;
+    line-height: 50.5px;
+    padding-left: 10px;
+    color: rgb(192, 218, 241);
+}
+
+#footer a:visited {
+    color: rgb(192, 218, 241);
+}
+#footer a:hover {
+    color: #fff;
+}
+
+#footer a:active {
+    color: red;
 }
