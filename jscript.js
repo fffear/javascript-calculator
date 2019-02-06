@@ -47,7 +47,6 @@ function operate() {
 
   let tokens = displayValue.split(" ");
   tokens.splice(tokens.length - 1, 1);
-  console.log(tokens);
  
   for (i = 0; i < tokens.length; i++ ) {
     let token = tokens[i];
@@ -91,27 +90,21 @@ function operate() {
           let a = resultStack.pop();
           if (/\+/.test(outputQueue[i])) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
           if (outputQueue[i].search(/\-$/) == 0) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
           if (/[\*]/.test(outputQueue[i])) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
           if (/\//.test(outputQueue[i])) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
           if (/\^/.test(outputQueue[i])) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
           if (/\%/.test(outputQueue[i])) {
             resultStack.push(operators[outputQueue[i]].operation(parseFloat(a), parseFloat(b)));
-            console.log(resultStack);
           }
         }
       } 
@@ -122,7 +115,6 @@ function operate() {
     updateDisplay(); 
     } 
   }
-  console.log(inputs);
 }
 
 const display = document.getElementById("calculatorDisplay");
@@ -177,14 +169,6 @@ function inputBrackets(brackets) {
   }
 }
 
-/*function inputMod(mod) {
-  if (displayValue == 0) {
-    return;
-  } else {
-    displayValue += " " + mod + " ";
-  }
-} */
-
 function negateNumber() {
   let tokenArray = displayValue.split(" ");
   if (isNumeric(tokenArray[tokenArray.length - 1])) {
@@ -201,9 +185,8 @@ function clearDisplay() {
 
 function deleteDisplay() {
   let tempDisplayValue = displayValue.split("");
-  
     
-  if (displayValue == "") {
+  if (displayValue == "0" || /^\d$/.test(displayValue)) {
     displayValue = "0";
   } else if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
   tempDisplayValue.splice(-3, 3);
@@ -296,18 +279,21 @@ calculatorContainer.addEventListener("click", function(e) {
 
   if (e.target.classList.contains("clear")) {
     clearDisplay();
-    updateDisplay2();
     updateDisplay();
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
   }
 
   if (e.target.classList.contains("delete")) {
+    if (/^\d$/.test(displayValue)) {
+      clearDisplay();
+    }  else {    
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
+    }
   }
 
   if (e.target.classList.contains("negation")) {
@@ -357,7 +343,6 @@ window.addEventListener("keydown", function(e) {
 
 btns.forEach(button => button.addEventListener("transitionend", removeTransition));
 btns2.forEach(button => button.addEventListener("transitionend", removeTransition));
-
 
   if (!btn && !btn2) return;
 
