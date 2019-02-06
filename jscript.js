@@ -227,8 +227,10 @@ calculatorContainer.addEventListener("click", function(e) {
   let btns2 = document.querySelectorAll("div[data-key-2]");
 
   function removeTransition(e) {
-    if (e.propertyName)
+    if (e.propertyName) {
     this.classList.remove("selected");
+    console.log(e);
+    }
   }
 
   btns.forEach(button => button.addEventListener("transitionend", removeTransition));
@@ -288,12 +290,12 @@ calculatorContainer.addEventListener("click", function(e) {
     if (displayValue >= 0 && displayValue <= 9) {
       clearDisplay();
       updateDisplay();
+      e.target.classList.remove("hover-over");
       e.target.classList.add("selected");
     } else {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
-
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
     }
