@@ -1,6 +1,6 @@
 Javascript Calculator Project from ["The Odin Project"](https://www.theodinproject.com/courses/web-development-101/lessons/calculator)
 
-This project is to make a completely functional calculator using javascript.
+This project is to make a completely functional calculator using javascript. [View Here](https://fffear.github.io/javascript-calculator/)
 
 In order to build the calculator, I used a combination of html, css and javascript.
 
