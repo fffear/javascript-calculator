@@ -6,36 +6,41 @@ html, body {
 }
 
 #page-container {
-    min-height: 100%;
-   display: flex;
-   flex-direction: column;
-   justify-content: flex-start;
-   align-items: stretch;
-   background-color: #d6eaf8;
+   min-height: 100%;
+   background-color: yellow;
 }
 
 #main {
     overflow: auto;
     padding-bottom: 50.5px;
     width: 100%;
+    min-height: calc(100vh - 50.5px);
+    background-color: rgb(192, 218, 241);
     display: flex;
     flex-direction: column;
-
+    
 }
 
-#content {
-    display: flex;
-    justify-content: center;
-    align-items: center;    
+div#header {
+    margin: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgb(25, 41, 56);
+    width: 100%;
+    color: rgb(192, 218, 241);
+    
 }
 
 #calculator {
-    margin-top: 50.5px;
+    /*margin-top: 50.5px;*/
     background-color: rgb(38, 38, 38);
     padding: 5px;
     width: 300px;
     border-radius: 5px;
     box-shadow: 0 0 10px 2px #000;
+    align-self: center;
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 #calculatorGridContainer {
@@ -112,7 +117,7 @@ html, body {
     grid-row-start: 4;
     grid-row-end: 8;
     text-align: left;
-    margin-top: -120px;
+    margin-top: -110px;
     padding: 0 10px;
     color: #fff;
 }
@@ -131,13 +136,13 @@ html, body {
 
 div[data-key] {
     text-align: center;
-    line-height: 57px;
+    line-height: 55px;
     border-radius: 5px;
 }
 
 div[data-key-2] {
     text-align: center;
-    line-height: 57px;
+    line-height: 55px;
     border-radius: 5px;
 }
 
@@ -152,15 +157,6 @@ h2 {
     text-align: center;
     margin: 0;
     
-}
-
-div#header {
-    margin: 0;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    background-color: rgb(25, 41, 56);
-    width: 100%;
-    color: rgb(192, 218, 241);
 }
 
 #footer {

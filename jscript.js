@@ -285,15 +285,18 @@ calculatorContainer.addEventListener("click", function(e) {
   }
 
   if (e.target.classList.contains("delete")) {
-    if (/^\d$/.test(displayValue)) {
+    if (displayValue >= 0 && displayValue <= 9) {
       clearDisplay();
-    }  else {    
+      updateDisplay();
+      e.target.classList.add("selected");
+    } else {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
-    }
+
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
+    }
   }
 
   if (e.target.classList.contains("negation")) {
@@ -382,15 +385,17 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
   }
 
   if (e.keyCode == 46) { //delete
-    if (/^\d$/.test(displayValue)) {
+    if (displayValue >= 0 && displayValue <= 9) {
       clearDisplay();
+      updateDisplay();
+      btn.classList.add("selected");
     } else {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
-    } 
     btn.classList.add("selected");  
     return;
+    }
   }
 
   if (e.keyCode == 54 && e.shiftKey == true) { //math power
