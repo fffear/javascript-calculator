@@ -32,7 +32,6 @@ div#header {
 }
 
 #calculator {
-    /*margin-top: 50.5px;*/
     background-color: rgb(38, 38, 38);
     padding: 5px;
     width: 300px;
@@ -131,7 +130,6 @@ div#header {
 
 .hover-over {
     background-color: rgb(128, 128, 128);
-    transition: all 0.1s;
 }
 
 div[data-key] {

@@ -143,7 +143,9 @@ function inputDigit(digit) {
 }
 
 function inputDecimal(decimal) {
-  if (/\.\d*$/.test(displayValue)) {
+  if (/[\(\)\%\^\+\*\/\-]\s$/.test(displayValue)) {
+    displayValue += 0 + decimal;
+  } else if (/\.\d*$/.test(displayValue)) {
     return;
   } else if (displayValue === 0 || /\d*$/.test(displayValue)) {
     displayValue += decimal;
@@ -186,9 +188,10 @@ function clearDisplay() {
 function deleteDisplay() {
   let tempDisplayValue = displayValue.split("");
     
-  if (displayValue == "0" || /^\d$/.test(displayValue)) {
-    displayValue = "0";
-  } else if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
+  if (/[\%\^\+\*\/\-]\s$/.test(displayValue)) {
+    tempDisplayValue.splice(-3, 3);
+    displayValue = tempDisplayValue.join("");
+  } else if (/[\(\)]\s$/.test(displayValue)) {
     tempDisplayValue.splice(-3, 3);
     displayValue = tempDisplayValue.join("");
   } else {
@@ -229,7 +232,7 @@ calculatorContainer.addEventListener("click", function(e) {
   function removeTransition(e) {
     if (e.propertyName) {
     e.target.classList.remove("selected");
-    e.target.classList.add("hover-over");
+    /*e.target.classList.add("hover-over");*/
     }
   }
 
@@ -278,7 +281,8 @@ calculatorContainer.addEventListener("click", function(e) {
   }
 
   if (e.target.classList.contains("delete")) {
-    if (displayValue >= 0 && displayValue <= 9 || /^[\(\)]\s$/.test(displayValue) || /0\s[\/\*\+\-]\s$/.test(displayValue)) {
+    if (/^\d$/.test(displayValue) || /^[\(\)]\s$/.test(displayValue) ||
+    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue)) {
       clearDisplay();
       updateDisplay();
       e.target.classList.remove("hover-over");
@@ -293,11 +297,17 @@ calculatorContainer.addEventListener("click", function(e) {
   }
 
   if (e.target.classList.contains("negation")) {
+    if (displayValue === "0") {
+      e.target.classList.remove("hover-over");
+      e.target.classList.add("selected");
+      return;
+    } else {
     negateNumber();
     updateDisplay();
-    updateDisplay2();
+    updateDisplay2();   
     e.target.classList.remove("hover-over");
     e.target.classList.add("selected");
+    }
   }
 
   if (e.target.classList.contains("help")) {
@@ -331,11 +341,14 @@ window.addEventListener("keydown", function(e) {
   let btn = document.querySelector(`div[data-key="${e.keyCode}"]`);
   let btn2 = document.querySelector(`div[data-key-2="${e.keyCode}"]`);
 
-  function removeTransition(e) { if (e.propertyName) this.classList.remove("selected"); }
+  function removeTransition(e) { 
+    if (e.propertyName) {
+    e.target.classList.remove("selected");
+    }
+  }
   
   let btns = document.querySelectorAll(`div[data-key="${e.keyCode}"]`);
   let btns2 = document.querySelectorAll(`div[data-key-2="${e.keyCode}"]`);
-
 
 btns.forEach(button => button.addEventListener("transitionend", removeTransition));
 btns2.forEach(button => button.addEventListener("transitionend", removeTransition));
@@ -345,7 +358,10 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
   if (e.keyCode == 8) { //clear
     clearDisplay();
     updateDisplay();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
+
+    
     return;
   }
 
@@ -354,6 +370,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   }
@@ -363,6 +380,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
 
     return;
@@ -373,21 +391,24 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     operate();
     updateDisplay();
     updateDisplay2();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
 
   if (e.keyCode == 46) { //delete
-    if (displayValue >= 0 && displayValue <= 9) {
+    if (/^\d$/.test(displayValue) || /^[\(\)]\s$/.test(displayValue) ||
+    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue)) {
       clearDisplay();
       updateDisplay();
+      btn.classList.remove("hover-over");
       btn.classList.add("selected");
     } else {
     deleteDisplay();
     updateDisplay();
     updateDisplay2();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");  
-    return;
     }
   }
 
@@ -396,6 +417,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   }
@@ -403,6 +425,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
   if (e.keyCode == 72) { //help
     removeButtons();
     displayHelp();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -411,6 +434,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     negateNumber();
     updateDisplay();
     updateDisplay2();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -419,12 +443,14 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     inputDecimal(".");
     updateDisplay();
     updateDisplay2();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   } else if (e.keyCode == 110) {
     inputDecimal(".");
     updateDisplay();
     updateDisplay2();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -434,6 +460,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   } else if (e.keyCode == 61) { 
@@ -441,6 +468,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   }
@@ -450,6 +478,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   } else if (e.keyCode == 109) {
@@ -457,6 +486,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -466,6 +496,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   } else if (e.keyCode == 106) {
@@ -473,6 +504,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -482,6 +514,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   } else if (e.keyCode == 111) {
@@ -489,6 +522,7 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     updateDisplay();
     updateDisplay2();
     operate();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   }
@@ -497,12 +531,14 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
     inputDigit(e.key);
     updateDisplay();
     updateDisplay2();
+    btn.classList.remove("hover-over");
     btn.classList.add("selected");
     return;
   } else if (e.keyCode >= 96 && e.keyCode <=105) {
     inputDigit(e.key);
     updateDisplay();
     updateDisplay2();
+    btn2.classList.remove("hover-over");
     btn2.classList.add("selected");
     return;
   }
