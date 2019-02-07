@@ -192,12 +192,12 @@ function deleteDisplay() {
     tempDisplayValue.splice(-3, 3);
     displayValue = tempDisplayValue.join("");
   } else if (/[\(\)]\s$/.test(displayValue)) {
-    tempDisplayValue.splice(-3, 3);
+    tempDisplayValue.splice(-2, 2);
     displayValue = tempDisplayValue.join("");
-  } else {
+  } else if (/\d+\.?\d*$|-$/.test(displayValue)) {
     tempDisplayValue.splice(-1, 1);
     displayValue = tempDisplayValue.join("");
-  }                                   
+  }                           
 }
 
 let removableBtns = document.querySelectorAll("div.removable");
@@ -231,8 +231,7 @@ calculatorContainer.addEventListener("click", function(e) {
 
   function removeTransition(e) {
     if (e.propertyName) {
-    e.target.classList.remove("selected");
-    /*e.target.classList.add("hover-over");*/
+    e.target.classList.remove("selected");    
     }
   }
 
@@ -282,7 +281,8 @@ calculatorContainer.addEventListener("click", function(e) {
 
   if (e.target.classList.contains("delete")) {
     if (/^\d$/.test(displayValue) || /^[\(\)]\s$/.test(displayValue) ||
-    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue)) {
+    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue) ||
+    /^-$/.test(displayValue)) {
       clearDisplay();
       updateDisplay();
       e.target.classList.remove("hover-over");
@@ -398,7 +398,8 @@ btns2.forEach(button => button.addEventListener("transitionend", removeTransitio
 
   if (e.keyCode == 46) { //delete
     if (/^\d$/.test(displayValue) || /^[\(\)]\s$/.test(displayValue) ||
-    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue)) {
+    /^0[.]$/.test(displayValue) || /^0\s[\/\%\*\+\-]\s$/.test(displayValue) ||
+    /^-$/.test(displayValue)) {
       clearDisplay();
       updateDisplay();
       btn.classList.remove("hover-over");
